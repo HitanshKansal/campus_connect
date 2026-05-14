@@ -7,10 +7,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
-const collegeRoutes = require('./routes/collegeRoutes');
 const { Server } = require('socket.io');
 const connectDB = require('./config/db');
-
 
 dotenv.config();
 connectDB();
@@ -18,17 +16,35 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
-// Socket.IO setup
+// ✅ Define allowedOrigins FIRST before using it anywhere
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://campus-connect.vercel.app',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
+// ✅ CORS middleware
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ✅ Socket.IO — uses allowedOrigins defined above
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
   },
 });
-
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -37,10 +53,9 @@ app.use('/api/posts', require('./routes/postRoutes'));
 app.use('/api/comments', require('./routes/commentRoutes'));
 app.use('/api/chats', require('./routes/chatRoutes'));
 app.use('/api/questions', require('./routes/questionRoutes'));
-app.use('/api/search', require('./routes/searchRoutes'));
-app.use('/api/colleges', collegeRoutes);
-
 app.use('/api/notifications', require('./routes/notificationRoutes'));
+app.use('/api/search', require('./routes/searchRoutes'));
+app.use('/api/colleges', require('./routes/collegeRoutes'));
 
 app.get('/', (req, res) => {
   res.json({ message: 'Campus Connect API is running 🚀' });
@@ -55,37 +70,37 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ─── Socket.IO ───────────────────────────────────
-const onlineUsers = new Map(); // userId → socketId
+// ── Socket.IO ──────────────────────────────────────
+const onlineUsers = new Map();
 
 io.on('connection', (socket) => {
   console.log('🔌 Socket connected:', socket.id);
 
-  // User comes online
   socket.on('user:online', (userId) => {
     onlineUsers.set(userId, socket.id);
     io.emit('users:online', Array.from(onlineUsers.keys()));
-    console.log('👤 Online:', userId);
   });
 
-  // Join a chat room
   socket.on('chat:join', (chatId) => {
     socket.join(chatId);
-    console.log(`💬 ${socket.id} joined chat: ${chatId}`);
   });
 
-  // Leave a chat room
   socket.on('chat:leave', (chatId) => {
     socket.leave(chatId);
   });
 
-  // New message
   socket.on('message:send', (data) => {
-    // Broadcast to everyone in the chat room except sender
     socket.to(data.chatId).emit('message:receive', data.message);
   });
 
-  // Typing indicator
+  socket.on('message:edited', (data) => {
+    socket.to(data.chatId).emit('message:edited', data);
+  });
+
+  socket.on('message:deleted', (data) => {
+    socket.to(data.chatId).emit('message:deleted', data);
+  });
+
   socket.on('typing:start', (data) => {
     socket.to(data.chatId).emit('typing:start', {
       userId: data.userId,
@@ -97,18 +112,7 @@ io.on('connection', (socket) => {
     socket.to(data.chatId).emit('typing:stop', { userId: data.userId });
   });
 
-
-socket.on('message:edited', (data) => {
-  socket.to(data.chatId).emit('message:edited', data);
-});
-
-socket.on('message:deleted', (data) => {
-  socket.to(data.chatId).emit('message:deleted', data);
-});
-
-  // Disconnect
   socket.on('disconnect', () => {
-    // Remove from online users
     for (const [userId, socketId] of onlineUsers.entries()) {
       if (socketId === socket.id) {
         onlineUsers.delete(userId);
@@ -120,6 +124,8 @@ socket.on('message:deleted', (data) => {
   });
 });
 
-// ─────────────────────────────────────────────────
+// ───────────────────────────────────────────────────
 
-server.listen(5000, () => console.log('Server running on port 5000'));
+server.listen(process.env.PORT || 5000, () =>
+  console.log(`Server running on port ${process.env.PORT || 5000}`)
+);

@@ -1,17 +1,19 @@
-// frontend/src/api/axios.js
-
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    'https://campus-connect-backend-j5py.onrender.com/api',
+  withCredentials: true,
 });
 
-// Automatically attach token to every request if it exists
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 

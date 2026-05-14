@@ -16,10 +16,11 @@ export const SocketProvider = ({ children }) => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
 
     if (token && user.id) {
-      const newSocket = io('http://localhost:5000', {
-        transports: ['websocket'],
-      });
-
+      
+      const newSocket = io(
+  import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000',
+  { transports: ['websocket'] }
+);
       newSocket.on('connect', () => {
         console.log('✅ Socket connected');
         newSocket.emit('user:online', user.id);
