@@ -238,7 +238,7 @@ const Profile = () => {
           <div className="relative mb-4">
 
             {/* Cover Banner */}
-            <div
+            {/* <div
               className="h-40 sm:h-52 w-full rounded-b-3xl relative overflow-hidden"
               style={{
                 background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4c1d95 70%, #6d28d9 100%)',
@@ -255,10 +255,55 @@ const Profile = () => {
                   className="px-3 py-1.5 rounded-xl text-xs font-semibold"
                   style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.8)' }}
                 >
-                  ✨ Campus Connect
+                  <img src="/logo.svg" alt="logo" className="w-6 h-6" /> Campus Connect
                 </div>
               </div>
-            </div>
+            </div> */}
+
+            <div
+  className="h-40 sm:h-52 w-full rounded-b-3xl relative overflow-hidden"
+  style={{
+    background:
+      "linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4c1d95 70%, #6d28d9 100%)",
+  }}
+>
+  <div
+    className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20"
+    style={{ background: "rgba(167,139,250,0.4)" }}
+  />
+  <div
+    className="absolute top-5 right-20 w-20 h-20 rounded-full opacity-15"
+    style={{ background: "rgba(196,181,253,0.5)" }}
+  />
+  <div
+    className="absolute -bottom-5 left-20 w-32 h-32 rounded-full opacity-10"
+    style={{ background: "rgba(139,92,246,0.6)" }}
+  />
+
+  {/* Campus Connect Logo */}
+  <div className="absolute top-4 right-4 z-10">
+    <div
+      className="flex items-center gap-2 px-3 py-2 rounded-2xl"
+      style={{
+        background: "rgba(255,255,255,0.15)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        color: "rgba(255,255,255,0.95)",
+      }}
+    >
+      <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm">
+        <img
+          src="/logo.svg"
+          alt="Campus Connect Logo"
+          className="w-5 h-5 object-contain"
+        />
+      </div>
+      <span className="text-xs sm:text-sm font-semibold whitespace-nowrap">
+        Campus Connect
+      </span>
+    </div>
+  </div>
+</div>
 
             {/* Profile Picture */}
             <div className="absolute left-6 -bottom-16">

@@ -95,7 +95,8 @@ const SetupProfile = () => {
                 className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                 style={{ background: 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}
               >
-                🎓
+                <img src="/logo.svg" alt="logo" className="w-12 h-12" />
+                
               </div>
               <div>
                 <p className="text-xs font-black text-gray-400 uppercase tracking-wider">

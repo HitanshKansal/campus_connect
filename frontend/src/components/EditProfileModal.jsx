@@ -97,7 +97,8 @@ const EditProfileModal = ({ user, onClose, onSaved }) => {
                 className="flex items-center gap-3 p-3.5 rounded-2xl mb-5"
                 style={{ background: '#f5f3ff', border: '1px solid #ede9fe' }}
               >
-                <span className="text-xl flex-shrink-0">🎓</span>
+                <span className="text-xl flex-shrink-0">
+                  <img src="/logo.svg" alt="logo" className="w-12 h-12" /></span>
                 <div className="flex-1 min-w-0">
                   <p className="font-black text-gray-900 text-sm truncate">
                     {user.collegeName}

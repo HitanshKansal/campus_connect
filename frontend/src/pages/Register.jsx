@@ -66,7 +66,9 @@ const Register = () => {
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-300 bg-opacity-20 rounded-full blur-3xl" />
         <div className="relative z-10 text-center text-white">
           <div className="animate-float inline-block mb-8">
-            <div className="w-24 h-24 bg-white bg-opacity-20 rounded-3xl flex items-center justify-center text-5xl shadow-2xl">🎓</div>
+            <div className="w-24 h-24 bg-white bg-opacity-20 rounded-3xl flex items-center justify-center text-5xl shadow-2xl">
+              <img src="/logo.svg" alt="logo" className="w-12 h-12" />
+            </div>
           </div>
           <h1 className="text-5xl font-black mb-4">Join Campus<br />Connect</h1>
           <p className="text-xl text-indigo-100 mb-8">Your student journey starts here</p>
@@ -84,7 +86,8 @@ const Register = () => {
 
           <div className="lg:hidden text-center mb-8">
             <div className="inline-flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-main rounded-2xl flex items-center justify-center text-2xl shadow-lg">🎓</div>
+              <div className="w-12 h-12 bg-gradient-main rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                <img src="/logo.svg" alt="logo" className="w-12 h-12" /></div>
               <span className="text-2xl font-black gradient-text">Campus Connect</span>
             </div>
           </div>

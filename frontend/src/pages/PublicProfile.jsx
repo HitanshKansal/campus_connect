@@ -504,7 +504,7 @@ const PublicProfile = () => {
               <div className="pp-college-band">
                 {profileUser?.collegeName && (
                   <div className="pp-college-name-row">
-                    <div className="pp-college-icon">🎓</div>
+                  
                     <p className="pp-college-text">{profileUser.collegeName}</p>
                   </div>
                 )}

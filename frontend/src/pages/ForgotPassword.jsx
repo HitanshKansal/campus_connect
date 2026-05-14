@@ -97,7 +97,8 @@ const ForgotPassword = () => {
         {/* NEW HEADER */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-main rounded-2xl flex items-center justify-center text-2xl shadow-lg animate-float">🎓</div>
+            <div className="w-12 h-12 bg-gradient-main rounded-2xl flex items-center justify-center text-2xl shadow-lg animate-float">
+              <img src="/logo.svg" alt="logo" className="w-12 h-12" /></div>
             <span className="text-2xl font-black gradient-text">Campus Connect</span>
           </div>
         </div>
